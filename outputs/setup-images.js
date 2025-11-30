@@ -1,5 +1,5 @@
 /**
- * Setup script to copy image files to public directory for Vite
+ * Setup script to copy image files and HTML files to public directory for Vite
  */
 import fs from 'fs'
 import path from 'path'
@@ -35,6 +35,14 @@ const images = [
   }
 ]
 
+// HTML files to copy
+const htmlFiles = [
+  {
+    src: path.join(__dirname, 'methodology.html'),
+    dest: path.join(__dirname, 'public', 'methodology.html')
+  }
+]
+
 // Create public directory structure
 const publicDir = path.join(__dirname, 'public')
 if (!fs.existsSync(publicDir)) {
@@ -51,6 +59,23 @@ let copied = 0
 let skipped = 0
 
 images.forEach(({ src, dest }) => {
+  try {
+    if (fs.existsSync(src)) {
+      fs.copyFileSync(src, dest)
+      console.log(`✓ Copied: ${path.basename(src)}`)
+      copied++
+    } else {
+      console.log(`✗ Not found: ${path.basename(src)}`)
+      skipped++
+    }
+  } catch (error) {
+    console.error(`✗ Error copying ${path.basename(src)}:`, error.message)
+    skipped++
+  }
+})
+
+// Copy HTML files
+htmlFiles.forEach(({ src, dest }) => {
   try {
     if (fs.existsSync(src)) {
       fs.copyFileSync(src, dest)
