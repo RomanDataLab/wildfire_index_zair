@@ -91,7 +91,7 @@
                            font-size: 12px; text-align: left; font-weight: bold;">
                 ⛰️ Terrain Slope (DEM)
             </button>
-            <button id="btn-methodology" onclick="window.open('methodology.html', '_blank')" 
+            <button id="btn-methodology" onclick="window.open('/methodology.html', '_blank')" 
                     style="padding: 8px; background-color: white; color: #666; 
                            border: 1px solid #ccc; border-radius: 3px; cursor: pointer; 
                            font-size: 12px; text-align: left; margin-top: 0px;">
@@ -146,9 +146,10 @@
     ];
     
     // Layer configurations
+    // In Vite, public folder files are served from root, so use absolute paths
     const LAYERS = {
         'wildfire_index': {
-            url: 'public/wildfire_intensity_overlay.png',
+            url: '/wildfire_intensity_overlay.png',
             bounds: GEOJSON_BOUNDS,
             opacity: 0.0,
             visible: false,
@@ -156,7 +157,7 @@
             palette: ['#ffffcc', '#ffeda0', '#fed976', '#feb24c', '#fd8d3c', '#fc4e2a', '#e31a1c', '#bd0026', '#800026']
         },
         'historical_fires': {
-            url: 'public/component_maps/historical_fires_overlay.png',
+            url: '/component_maps/historical_fires_overlay.png',
             bounds: GEOJSON_BOUNDS,
             opacity: 0.0,
             visible: false,
@@ -164,7 +165,7 @@
             palette: ['#fff7ec', '#fee8c8', '#fdd49e', '#fdbb84', '#fc8d59', '#ef6548', '#d7301f', '#b30000', '#7f0000']
         },
         'fire_weather_lst': {
-            url: 'public/component_maps/fire_weather_(lst)_overlay.png',
+            url: '/component_maps/fire_weather_(lst)_overlay.png',
             bounds: GEOJSON_BOUNDS,
             opacity: 0.0,
             visible: false,
@@ -172,7 +173,7 @@
             palette: ['#313695', '#4575b4', '#74add1', '#abd9e9', '#e0f3f8', '#ffffcc', '#fee090', '#fdae61', '#f46d43', '#d73027', '#a50026']
         },
         'vegetation_ndvi': {
-            url: 'public/component_maps/vegetation_index_(ndvi)_overlay.png',
+            url: '/component_maps/vegetation_index_(ndvi)_overlay.png',
             bounds: GEOJSON_BOUNDS,
             opacity: 0.0,
             visible: false,
@@ -180,7 +181,7 @@
             palette: ['#8b4513', '#a0522d', '#cd853f', '#daa520', '#9acd32', '#7cfc00', '#32cd32', '#228b22', '#006400']
         },
         'population_urban': {
-            url: 'public/component_maps/population_urban_overlay.png',
+            url: '/component_maps/population_urban_overlay.png',
             bounds: GEOJSON_BOUNDS,
             opacity: 0.0,
             visible: false,
@@ -188,7 +189,7 @@
             palette: ['#f7f7f7', '#d9d9d9', '#bdbdbd', '#969696', '#737373', '#525252', '#252525', '#000000']
         },
         'terrain_slope': {
-            url: 'public/component_maps/terrain_slope_overlay.png',
+            url: '/component_maps/terrain_slope_overlay.png',
             bounds: GEOJSON_BOUNDS,
             opacity: 0.9,
             visible: true,
@@ -235,8 +236,14 @@
         }
         
         // Load and add DRC boundary
-        fetch('public/drc_admin_wei.geojson')
-            .then(response => response.json())
+        // In Vite, public folder files are served from root
+        fetch('/drc_admin_wei.geojson')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
             .then(data => {
                 L.geoJSON(data, {
                     style: {
