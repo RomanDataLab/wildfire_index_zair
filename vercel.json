@@ -3,6 +3,31 @@
   "buildCommand": "cd outputs && npm install && npm run vercel-build",
   "outputDirectory": "outputs/dist",
   "installCommand": "cd outputs && npm install",
-  "framework": "vite"
+  "framework": "vite",
+  "rewrites": [
+    {
+      "source": "/methodology.html",
+      "destination": "/methodology.html"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "Access-Control-Allow-Methods",
+          "value": "GET, OPTIONS"
+        }
+      ]
+    }
+  ]
 }
 
