@@ -477,17 +477,21 @@
     }
     
     // Sync all div heights to match layer-control-panel (Map Layers)
+    // Use computed style height to get the actual content height, accounting for padding/borders
     function syncAllHeights() {
         var mapLayers = document.getElementById('layer-control-panel');
         var mapOpacity = document.getElementById('map-opacity');
         var mapLegend = document.getElementById('map-legend');
         
         if (mapLayers) {
-            var targetHeight = mapLayers.offsetHeight;
-            if (mapOpacity) {
+            // Get the computed style height (content height only)
+            var computedStyle = window.getComputedStyle(mapLayers);
+            var targetHeight = parseFloat(computedStyle.height);
+            
+            if (mapOpacity && !isNaN(targetHeight)) {
                 mapOpacity.style.height = targetHeight + 'px';
             }
-            if (mapLegend) {
+            if (mapLegend && !isNaN(targetHeight)) {
                 mapLegend.style.height = targetHeight + 'px';
             }
         }
