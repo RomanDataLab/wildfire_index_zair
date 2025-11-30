@@ -16,14 +16,23 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
-    sourcemap: true
+    sourcemap: false, // Disable sourcemaps for production
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'react-vendor': ['react', 'react-dom'],
+          'leaflet-vendor': ['leaflet', 'react-leaflet']
+        }
+      }
+    }
   },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src')
     }
   },
-  publicDir: 'public'
+  publicDir: 'public',
+  base: '/' // Ensure assets are served from root
 })
 
 
