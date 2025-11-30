@@ -1,0 +1,8 @@
+{
+  "version": 2,
+  "buildCommand": "cd outputs && npm install && npm run vercel-build",
+  "outputDirectory": "outputs/dist",
+  "installCommand": "cd outputs && npm install",
+  "framework": "vite"
+}
+
