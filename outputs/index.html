@@ -476,10 +476,31 @@
         }
     }
     
+    // Sync all div heights to match layer-control-panel (Map Layers)
+    function syncAllHeights() {
+        var mapLayers = document.getElementById('layer-control-panel');
+        var mapOpacity = document.getElementById('map-opacity');
+        var mapLegend = document.getElementById('map-legend');
+        
+        if (mapLayers) {
+            var targetHeight = mapLayers.offsetHeight;
+            if (mapOpacity) {
+                mapOpacity.style.height = targetHeight + 'px';
+            }
+            if (mapLegend) {
+                mapLegend.style.height = targetHeight + 'px';
+            }
+        }
+    }
+    
     // Initialize when page loads
     window.addEventListener('load', function() {
         initMap();
         updateLegend('terrain_slope');
+        // Sync heights after a short delay to ensure DOM is fully rendered
+        setTimeout(syncAllHeights, 100);
+        // Sync on window resize
+        window.addEventListener('resize', syncAllHeights);
     });
     </script>
 </body>
