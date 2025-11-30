@@ -476,23 +476,10 @@
         }
     }
     
-    // Sync heights of map-opacity and map-legend
-    function syncHeights() {
-        var legend = document.getElementById('map-legend');
-        var opacity = document.getElementById('map-opacity');
-        if (legend && opacity) {
-            var legendHeight = legend.offsetHeight;
-            opacity.style.height = legendHeight + 'px';
-        }
-    }
-    
     // Initialize when page loads
     window.addEventListener('load', function() {
         initMap();
         updateLegend('terrain_slope');
-        syncHeights();
-        // Sync heights on window resize
-        window.addEventListener('resize', syncHeights);
     });
     </script>
 </body>
