@@ -6,10 +6,6 @@
   "framework": "vite",
   "rewrites": [
     {
-      "source": "/methodology.html",
-      "destination": "/methodology.html"
-    },
-    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
