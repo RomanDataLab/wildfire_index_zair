@@ -1,20 +1,9 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "dist"
-      }
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/$1"
-    }
-  ],
+  "buildCommand": "cd outputs && npm install && npm run vercel-build",
+  "outputDirectory": "outputs/dist",
+  "installCommand": "cd outputs && npm install",
+  "framework": "vite",
   "rewrites": [
     {
       "source": "/(.*)",
@@ -37,4 +26,3 @@
     }
   ]
 }
-
