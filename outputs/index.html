@@ -242,9 +242,26 @@
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
+                // Check if response is actually JSON
+                const contentType = response.headers.get('content-type');
+                if (!contentType || !contentType.includes('application/json')) {
+                    // Try to parse as text first to see what we got
+                    return response.text().then(text => {
+                        console.log('Response text:', text.substring(0, 100));
+                        try {
+                            return JSON.parse(text);
+                        } catch (e) {
+                            throw new Error('Response is not valid JSON');
+                        }
+                    });
+                }
                 return response.json();
             })
             .then(data => {
+                if (!data || !data.features) {
+                    console.error('Invalid GeoJSON data:', data);
+                    return;
+                }
                 L.geoJSON(data, {
                     style: {
                         fillColor: 'none',
@@ -255,7 +272,10 @@
                     }
                 }).addTo(map);
             })
-            .catch(error => console.error('Error loading GeoJSON:', error));
+            .catch(error => {
+                console.error('Error loading GeoJSON:', error);
+                // Continue without boundary if it fails
+            });
         
         // Fit bounds to DRC
         map.fitBounds(GEOJSON_BOUNDS, { padding: [20, 20] });
