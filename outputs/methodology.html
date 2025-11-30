@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DRC Wildfire Index - Methodology</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+                'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+                sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #d73027;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+            border-bottom: 3px solid #d73027;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #313695;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 1.8em;
+            border-bottom: 2px solid #313695;
+            padding-bottom: 5px;
+        }
+        h3 {
+            color: #4575b4;
+            margin-top: 25px;
+            margin-bottom: 12px;
+            font-size: 1.4em;
+        }
+        h4 {
+            color: #74add1;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+        ul, ol {
+            margin-left: 30px;
+            margin-bottom: 15px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+        .formula {
+            background-color: #f9f9f9;
+            border-left: 4px solid #313695;
+            padding: 15px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 1.1em;
+            overflow-x: auto;
+        }
+        .references {
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 2px solid #ddd;
+        }
+        .references h2 {
+            margin-top: 0;
+        }
+        .reference-item {
+            margin-bottom: 15px;
+            padding-left: 20px;
+            text-indent: -20px;
+        }
+        .reference-item a {
+            color: #313695;
+            text-decoration: none;
+        }
+        .reference-item a:hover {
+            text-decoration: underline;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 10px 20px;
+            background-color: #d73027;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .back-link:hover {
+            background-color: #a50026;
+        }
+        .highlight-box {
+            background-color: #e8f4f8;
+            border-left: 4px solid #313695;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #313695;
+            color: white;
+        }
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Methodology: DRC Wildfire Index Evaluation</h1>
+        
+        <h2>1. Overview</h2>
+        <p>This document describes the step-by-step methodology for evaluating wildfire risk in the Democratic Republic of the Congo (DRC) using Earth observation data from NASA Earthdata sources.</p>
+        
+        <h2>2. Study Area</h2>
+        <p><strong>Location</strong>: Democratic Republic of the Congo (DRC)</p>
+        <p><strong>Geographic Extent</strong>:</p>
+        <ul>
+            <li>Longitude: 12.20°E to 31.31°E</li>
+            <li>Latitude: -13.45°S to 5.39°N</li>
+            <li>Area: ~2,345,409 km²</li>
+        </ul>
+        <p><strong>Boundary Source</strong>: GADM (Global Administrative Areas) database, version 4.1</p>
+        
+        <h2>3. Data Sources and Acquisition</h2>
+        
+        <h3>3.1 Administrative Boundary</h3>
+        <p><strong>Source</strong>: GADM (Global Administrative Areas)</p>
+        <p><strong>Product</strong>: gadm41_COD.gpkg</p>
+        <p><strong>Resolution</strong>: Administrative level 0 (country boundary)</p>
+        <p><strong>Format</strong>: GeoPackage</p>
+        <p><strong>Download Method</strong>: Direct download from GADM repository</p>
+        
+        <h3>3.2 Historical Fire Frequency</h3>
+        <p><strong>Source</strong>: NASA LP DAAC</p>
+        <p><strong>Product</strong>: MODIS Burned Area (MCD64A1), Collection 6.1</p>
+        <p><strong>Resolution</strong>: 500 m</p>
+        <p><strong>Temporal Coverage</strong>: 2020-2023</p>
+        <p><strong>Temporal Resolution</strong>: Monthly</p>
+        <p><strong>Band Used</strong>: Burn Date</p>
+        <p><strong>Download Method</strong>: NASA CMR (Common Metadata Repository) API</p>
+        <p><strong>Processing</strong>:</p>
+        <ul>
+            <li>Query CMR for granules covering DRC bounding box</li>
+            <li>Download HDF files for relevant tiles (h19v08-h21v10)</li>
+            <li>Extract Burn Date band using GDAL</li>
+            <li>Mosaic tiles for each time period</li>
+            <li>Calculate fire frequency (number of burn events per pixel)</li>
+            <li>Clip to DRC boundary</li>
+        </ul>
+        
+        <h3>3.3 Fire Weather Index</h3>
+        <p><strong>Source</strong>: NASA LP DAAC</p>
+        <p><strong>Product</strong>: MODIS Land Surface Temperature (MOD11A2), Collection 6.1</p>
+        <p><strong>Resolution</strong>: 1 km</p>
+        <p><strong>Temporal Coverage</strong>: 2020-2023</p>
+        <p><strong>Temporal Resolution</strong>: 8-day composite</p>
+        <p><strong>Band Used</strong>: LST_Day_1km</p>
+        <p><strong>Scale Factor</strong>: 0.02 (to convert to Kelvin)</p>
+        <p><strong>Proxy Rationale</strong>: High land surface temperature correlates with fire weather conditions</p>
+        <p><strong>Download Method</strong>: NASA CMR API</p>
+        <p><strong>Processing</strong>:</p>
+        <ul>
+            <li>Query and download MOD11A2 granules</li>
+            <li>Extract LST_Day_1km band</li>
+            <li>Apply scale factor</li>
+            <li>Calculate mean LST over time period</li>
+            <li>Clip to DRC boundary</li>
+        </ul>
+        
+        <h3>3.4 Vegetation Index</h3>
+        <p><strong>Source</strong>: NASA LP DAAC</p>
+        <p><strong>Product</strong>: MODIS Vegetation Indices (MOD13A2), Collection 6.1</p>
+        <p><strong>Resolution</strong>: 1 km</p>
+        <p><strong>Temporal Coverage</strong>: 2019-2023</p>
+        <p><strong>Temporal Resolution</strong>: 16-day composite</p>
+        <p><strong>Band Used</strong>: 250m 16 days NDVI</p>
+        <p><strong>Scale Factor</strong>: 0.0001</p>
+        <p><strong>Rationale</strong>: Low NDVI indicates sparse vegetation, which increases fire risk</p>
+        <p><strong>Download Method</strong>: NASA CMR API</p>
+        <p><strong>Processing</strong>:</p>
+        <ul>
+            <li>Query and download MOD13A2 granules</li>
+            <li>Extract NDVI band</li>
+            <li>Apply scale factor</li>
+            <li>Calculate mean NDVI over time period</li>
+            <li>Clip to DRC boundary</li>
+        </ul>
+        
+        <h3>3.5 Population Density Proxy</h3>
+        <p><strong>Source</strong>: NASA LP DAAC</p>
+        <p><strong>Product</strong>: MODIS Land Cover Type (MCD12Q1), Collection 6.1</p>
+        <p><strong>Resolution</strong>: 500 m</p>
+        <p><strong>Temporal Coverage</strong>: 2020-2021</p>
+        <p><strong>Temporal Resolution</strong>: Annual</p>
+        <p><strong>Classification</strong>: IGBP (International Geosphere-Biosphere Programme)</p>
+        <p><strong>Class Used</strong>: 13 (Urban and Built-up Lands)</p>
+        <p><strong>Proxy Rationale</strong>: Urban land cover indicates population density, which correlates with fire risk</p>
+        <p><strong>Download Method</strong>: NASA CMR API</p>
+        <p><strong>Processing</strong>:</p>
+        <ul>
+            <li>Query and download MCD12Q1 granules</li>
+            <li>Extract LC_Type1 (IGBP classification)</li>
+            <li>Create binary mask: Urban (class 13) = 1, Other = 0</li>
+            <li>Calculate urban density</li>
+            <li>Clip to DRC boundary</li>
+        </ul>
+        
+        <h3>3.6 Digital Elevation Model</h3>
+        <p><strong>Source</strong>: NASA LP DAAC / USGS</p>
+        <p><strong>Product</strong>: SRTM (Shuttle Radar Topography Mission) Global 1 arc second</p>
+        <p><strong>Resolution</strong>: 30 m (1 arc second)</p>
+        <p><strong>Coverage</strong>: Global (60°N to 56°S)</p>
+        <p><strong>Format</strong>: HGT files</p>
+        <p><strong>Download Method</strong>: Processed existing tiles</p>
+        <p><strong>Processing</strong>:</p>
+        <ul>
+            <li>Mosaic 20 SRTM tiles covering DRC</li>
+            <li>Clip to DRC boundary</li>
+            <li>Calculate terrain slope using gradient method</li>
+            <li>Resample to match other datasets (~1 km)</li>
+        </ul>
+        
+        <h2>4. Data Processing Workflow</h2>
+        
+        <h3>Step 1: Data Download</h3>
+        <ol>
+            <li><strong>Boundary Acquisition</strong>
+                <ul>
+                    <li>Download DRC boundary from GADM</li>
+                    <li>Verify geometry and CRS (EPSG:4326)</li>
+                    <li>Simplify if necessary for processing efficiency</li>
+                </ul>
+            </li>
+            <li><strong>MODIS Data Acquisition</strong>
+                <ul>
+                    <li>Authenticate with NASA Earthdata using token</li>
+                    <li>Query CMR API for each MODIS product</li>
+                    <li>Filter granules by temporal range (2020-2023) and spatial bounding box</li>
+                    <li>Download HDF files for relevant tiles</li>
+                </ul>
+            </li>
+            <li><strong>SRTM Data Processing</strong>
+                <ul>
+                    <li>Identify required SRTM tiles for DRC</li>
+                    <li>Process existing HGT files</li>
+                    <li>Mosaic tiles</li>
+                </ul>
+            </li>
+        </ol>
+        
+        <h3>Step 2: HDF File Processing</h3>
+        <p>For each MODIS product:</p>
+        <ol>
+            <li><strong>Subdataset Extraction</strong>: Use GDAL to list subdatasets and extract target band</li>
+            <li><strong>Mosaicking</strong>: Combine multiple tiles for same time period</li>
+            <li><strong>Clipping</strong>: Clip mosaicked raster to DRC boundary</li>
+        </ol>
+        
+        <h3>Step 3: Temporal Aggregation</h3>
+        <ul>
+            <li><strong>Fire Frequency</strong>: Sum burn events across all time periods</li>
+            <li><strong>Mean LST</strong>: Calculate mean LST across all time periods</li>
+            <li><strong>Mean NDVI</strong>: Calculate mean NDVI across all time periods</li>
+            <li><strong>Urban Density</strong>: Use most recent year available</li>
+            <li><strong>Terrain Slope</strong>: Calculate slope using gradient method (slope = √(dx² + dy²))</li>
+        </ul>
+        
+        <h3>Step 4: Reprojection and Resampling</h3>
+        <ol>
+            <li><strong>Reproject to WGS84</strong>: All MODIS products use Sinusoidal projection, reproject to EPSG:4326</li>
+            <li><strong>Resample to Common Resolution</strong>: Target resolution ~1 km (0.01 degrees)</li>
+        </ol>
+        
+        <h3>Step 5: Normalization</h3>
+        <p>For each raster component:</p>
+        <ol>
+            <li>Mask invalid values (NoData, fill values, outliers)</li>
+            <li>Normalize to 0-1 range using Min-Max normalization: <code>normalized = (value - min) / (max - min)</code></li>
+            <li>Invert NDVI: <code>inverted_ndvi = 1 - normalized_ndvi</code> (low NDVI = high fire risk)</li>
+        </ol>
+        
+        <h3>Step 6: Index Combination</h3>
+        <div class="formula">
+            WI = w₁×Fires + w₂×LST + w₃×(1-NDVI) + w₄×Urban + w₅×Slope
+        </div>
+        <p>Where:</p>
+        <ul>
+            <li>WI = Wildfire Index (0-1)</li>
+            <li>w₁ = 0.25 (Historical fires)</li>
+            <li>w₂ = 0.25 (Fire weather/LST)</li>
+            <li>w₃ = 0.20 (Vegetation, inverted)</li>
+            <li>w₄ = 0.15 (Population/urban)</li>
+            <li>w₅ = 0.15 (Terrain slope)</li>
+        </ul>
+        <p><strong>Weights sum to 1.0</strong> and are based on literature review, data availability, and expert judgment.</p>
+        
+        <h2>5. Quality Assurance</h2>
+        <h3>5.1 Data Quality Checks</h3>
+        <ul>
+            <li>Verify all input rasters have valid data</li>
+            <li>Check for spatial alignment</li>
+            <li>Validate CRS consistency</li>
+            <li>Inspect for artifacts or anomalies</li>
+        </ul>
+        
+        <h3>5.2 Index Validation</h3>
+        <ul>
+            <li>Verify index values are in expected range (0-1)</li>
+            <li>Check for reasonable spatial patterns</li>
+            <li>Compare with known fire-prone areas</li>
+            <li>Validate against historical fire records</li>
+        </ul>
+        
+        <h2>6. Limitations and Assumptions</h2>
+        <h3>Limitations</h3>
+        <ul>
+            <li><strong>Temporal Coverage</strong>: Limited to available MODIS data (2020-2023)</li>
+            <li><strong>Spatial Resolution</strong>: ~1 km resolution may miss small-scale features</li>
+            <li><strong>Proxy Variables</strong>: LST used as proxy for fire weather (not true FWI)</li>
+            <li><strong>Urban Proxy</strong>: Land cover used instead of actual population data</li>
+            <li><strong>Weight Selection</strong>: Weights based on literature but may need calibration</li>
+        </ul>
+        
+        <h3>Assumptions</h3>
+        <ul>
+            <li>Historical fire frequency predicts future risk</li>
+            <li>High LST indicates fire-prone conditions</li>
+            <li>Low NDVI indicates higher fire risk</li>
+            <li>Urban areas have higher fire risk</li>
+            <li>Steeper terrain increases fire risk</li>
+        </ul>
+        
+        <h2>7. Software and Tools</h2>
+        <ul>
+            <li><strong>Python 3.13</strong>: Main programming language</li>
+            <li><strong>GDAL 3.9.3</strong>: Geospatial data processing (via OSGeo4W)</li>
+            <li><strong>Rasterio</strong>: Raster I/O and processing</li>
+            <li><strong>Geopandas</strong>: Vector data handling</li>
+            <li><strong>NumPy</strong>: Numerical computations</li>
+            <li><strong>NASA CMR API</strong>: Data discovery and download</li>
+            <li><strong>OSGeo4W</strong>: GDAL command-line tools for Windows</li>
+        </ul>
+        
+        <h2>8. Output Products</h2>
+        <ul>
+            <li><strong>Wildfire Index Raster</strong>: GeoTIFF format, WGS84 projection, 0-1 risk scale</li>
+            <li><strong>Component Rasters</strong>: Individual factors (fires, LST, NDVI, urban, slope)</li>
+            <li><strong>Interactive Map</strong>: Web-based visualization with interactive exploration</li>
+        </ul>
+        
+        <div class="references">
+            <h2>References</h2>
+            
+            <div class="reference-item">
+                Didan, K. (2015) <em>MODIS Vegetation Index User's Guide (MOD13 Series)</em>. Version 3.00. The University of Arizona, Vegetation Index and Phenology Lab. Available at: <a href="https://lpdaac.usgs.gov/documents/103/MOD13_User_Guide_V6.pdf" target="_blank">https://lpdaac.usgs.gov/documents/103/MOD13_User_Guide_V6.pdf</a> (Accessed: [Date]).
+            </div>
+            
+            <div class="reference-item">
+                Farr, T.G., Rosen, P.A., Caro, E., Crippen, R., Duren, R., Hensley, S., Kobrick, M., Paller, M., Rodriguez, E., Roth, L., Seal, D., Shaffer, S., Shimada, J., Umland, J., Werner, M., Oskin, M., Burbank, D. and Alsdorf, D. (2007) 'The Shuttle Radar Topography Mission', <em>Reviews of Geophysics</em>, 45(2), RG2004. Available at: <a href="https://doi.org/10.1029/2005RG000183" target="_blank">https://doi.org/10.1029/2005RG000183</a> (Accessed: [Date]).
+            </div>
+            
+            <div class="reference-item">
+                Giglio, L., Boschetti, L., Roy, D.P., Humber, M.L. and Justice, C.O. (2018) 'The Collection 6 MODIS burned area mapping algorithm and product', <em>Remote Sensing of Environment</em>, 217, pp. 72-85. Available at: <a href="https://doi.org/10.1016/j.rse.2018.08.005" target="_blank">https://doi.org/10.1016/j.rse.2018.08.005</a> (Accessed: [Date]).
+            </div>
+            
+            <div class="reference-item">
+                GADM (2023) <em>Global Administrative Areas Database</em>. Version 4.1. Available at: <a href="https://gadm.org" target="_blank">https://gadm.org</a> (Accessed: [Date]).
+            </div>
+            
+            <div class="reference-item">
+                NASA LP DAAC (2024) <em>MODIS Land Surface Temperature and Emissivity (MOD11A2)</em>. Version 6.1. NASA EOSDIS Land Processes DAAC, USGS Earth Resources Observation and Science (EROS) Center, Sioux Falls, South Dakota. Available at: <a href="https://lpdaac.usgs.gov/products/mod11a2v061/" target="_blank">https://lpdaac.usgs.gov/products/mod11a2v061/</a> (Accessed: [Date]).
+            </div>
+            
+            <div class="reference-item">
+                NASA LP DAAC (2024) <em>MODIS Burned Area (MCD64A1)</em>. Version 6.1. NASA EOSDIS Land Processes DAAC, USGS Earth Resources Observation and Science (EROS) Center, Sioux Falls, South Dakota. Available at: <a href="https://lpdaac.usgs.gov/products/mcd64a1v061/" target="_blank">https://lpdaac.usgs.gov/products/mcd64a1v061/</a> (Accessed: [Date]).
+            </div>
+            
+            <div class="reference-item">
+                NASA LP DAAC (2024) <em>MODIS Vegetation Indices (MOD13A2)</em>. Version 6.1. NASA EOSDIS Land Processes DAAC, USGS Earth Resources Observation and Science (EROS) Center, Sioux Falls, South Dakota. Available at: <a href="https://lpdaac.usgs.gov/products/mod13a2v061/" target="_blank">https://lpdaac.usgs.gov/products/mod13a2v061/</a> (Accessed: [Date]).
+            </div>
+            
+            <div class="reference-item">
+                NASA LP DAAC (2024) <em>MODIS Land Cover Type (MCD12Q1)</em>. Version 6.1. NASA EOSDIS Land Processes DAAC, USGS Earth Resources Observation and Science (EROS) Center, Sioux Falls, South Dakota. Available at: <a href="https://lpdaac.usgs.gov/products/mcd12q1v061/" target="_blank">https://lpdaac.usgs.gov/products/mcd12q1v061/</a> (Accessed: [Date]).
+            </div>
+            
+            <div class="reference-item">
+                Sulla-Menashe, D. and Friedl, M.A. (2018) 'User Guide to Collection 6 MODIS Land Cover (MCD12Q1 and MCD12C1) Product', <em>NASA EOSDIS Land Processes DAAC</em>. Available at: <a href="https://lpdaac.usgs.gov/documents/101/MCD12_User_Guide_V6.pdf" target="_blank">https://lpdaac.usgs.gov/documents/101/MCD12_User_Guide_V6.pdf</a> (Accessed: [Date]).
+            </div>
+            
+            <div class="reference-item">
+                USGS (2024) <em>Shuttle Radar Topography Mission (SRTM)</em>. USGS Earth Resources Observation and Science (EROS) Center. Available at: <a href="https://www.usgs.gov/centers/eros/science/usgs-eros-archive-digital-elevation-shuttle-radar-topography-mission-srtm" target="_blank">https://www.usgs.gov/centers/eros/science/usgs-eros-archive-digital-elevation-shuttle-radar-topography-mission-srtm</a> (Accessed: [Date]).
+            </div>
+            
+            <div class="reference-item">
+                Wan, Z., Hook, S. and Hulley, G. (2015) <em>MODIS Land Surface Temperature Products User's Guide</em>. Version 1.4. NASA EOSDIS Land Processes DAAC, USGS Earth Resources Observation and Science (EROS) Center, Sioux Falls, South Dakota. Available at: <a href="https://lpdaac.usgs.gov/documents/118/MOD11_User_Guide_V6.pdf" target="_blank">https://lpdaac.usgs.gov/documents/118/MOD11_User_Guide_V6.pdf</a> (Accessed: [Date]).
+            </div>
+        </div>
+        
+        <a href="index.html" class="back-link">← Back to Map</a>
+    </div>
+</body>
+</html>
+

@@ -1,0 +1,78 @@
+# Ignore all Python files
+*.py
+**/*.py
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+scripts/
+
+# Ignore all Markdown files
+*.md
+**/*.md
+
+# Ignore data files and rasters
+data/
+*.tif
+*.tiff
+*.hgt
+*.hdf
+*.gpkg
+
+# Ignore intermediate/processed files
+*.aux.xml
+*.ovr
+*.aux
+
+# Ignore node_modules
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Ignore build outputs
+dist/
+build/
+*.egg-info/
+
+# Ignore IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Ignore OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Ignore environment files
+.env
+.venv
+venv/
+ENV/
+
+# Ignore logs
+*.log
+logs/
+
+# Ignore temporary files
+*.tmp
+*.temp
+*.bak
+*.backup
+
+# Ignore other non-webpage files
+eada.txt
+requirements.txt
+
+# Keep only webpage files in outputs/:
+# - HTML files (*.html)
+# - CSS files (*.css)
+# - JS/JSX files (*.js, *.jsx)
+# - PNG/JPG images (*.png, *.jpg, *.jpeg)
+# - JSON config files (package.json, package-lock.json, vite.config.js)
+# - GeoJSON files in outputs/public/ and outputs/ (drc_admin_wei.geojson)
+# - setup-images.js

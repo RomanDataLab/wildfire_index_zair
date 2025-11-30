@@ -1,0 +1,25 @@
+{
+  "name": "wildfire-map-react",
+  "version": "1.0.0",
+  "description": "Interactive wildfire map for DRC using React and Leaflet",
+  "type": "module",
+  "scripts": {
+    "setup": "node setup-images.js",
+    "dev": "npm run setup && vite",
+    "build": "npm run setup && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-leaflet": "^4.2.1",
+    "leaflet": "^1.9.4"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.43",
+    "@types/react-dom": "^18.2.17",
+    "@vitejs/plugin-react": "^4.2.1",
+    "vite": "^5.0.8"
+  }
+}
+

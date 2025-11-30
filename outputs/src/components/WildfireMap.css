@@ -1,0 +1,152 @@
+.wildfire-map-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+}
+
+.layer-control-panel {
+  position: fixed;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+  width: 220px;
+  z-index: 1000;
+  background-color: white;
+  border: 2px solid #333;
+  border-radius: 5px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  font-family: Arial, sans-serif;
+  padding: 12px;
+  height: auto;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.layer-control-panel h4 {
+  margin-top: 0;
+  margin-bottom: 12px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+}
+
+.layer-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.layer-button {
+  padding: 8px 10px;
+  background-color: #666;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 12px;
+  text-align: left;
+  transition: background-color 0.2s;
+}
+
+.layer-button:hover {
+  background-color: #555;
+}
+
+.layer-button.active {
+  background-color: #d73027;
+  font-weight: bold;
+}
+
+.map-title {
+  position: fixed;
+  top: 10px;
+  left: 50px;
+  width: auto;
+  height: auto;
+  background-color: white;
+  z-index: 1000;
+  font-size: 16px;
+  padding: 8px 16px;
+  border: 2px solid #333;
+  border-radius: 3px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  font-weight: bold;
+  font-family: Arial, sans-serif;
+}
+
+.map-legend {
+  position: fixed;
+  top: 50%;
+  right: 245px;
+  transform: translateY(-50%);
+  width: 100px;
+  height: auto;
+  background-color: white;
+  z-index: 1000;
+  font-size: 12px;
+  padding: 12px;
+  border: 2px solid #333;
+  border-radius: 3px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  font-family: Arial, sans-serif;
+}
+
+.map-legend h4 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+}
+
+.legend-gradient {
+  height: 220px;
+  width: 35px;
+  float: left;
+  margin-right: 12px;
+  position: relative;
+}
+
+.gradient-bar {
+  height: 100%;
+  width: 100%;
+  border: 2px solid #000;
+  /* Background gradient is set dynamically via inline style */
+}
+
+.legend-labels {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 220px;
+  padding-left: 5px;
+}
+
+.legend-labels span {
+  font-size: 11px;
+  font-weight: bold;
+}
+
+.legend-labels span:first-child {
+  margin-top: 0;
+}
+
+.legend-labels span:last-child {
+  margin-bottom: 0;
+}
+
+/* City labels styling */
+.city-label {
+  color: white !important;
+  font-weight: bold !important;
+  font-size: 12px !important;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8), -1px -1px 2px rgba(0, 0, 0, 0.8) !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 2px 4px !important;
+  white-space: nowrap !important;
+}
+
