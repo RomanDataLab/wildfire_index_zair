@@ -37,6 +37,64 @@
             image-rendering: -o-crisp-edges;
             -ms-interpolation-mode: nearest-neighbor;
         }
+        /* Vertical slider styling */
+        #opacity-slider {
+            writing-mode: bt-lr; /* IE */
+            -webkit-appearance: slider-vertical; /* WebKit */
+            width: 20px;
+            height: 200px;
+            margin: 0;
+            cursor: pointer;
+            background: transparent;
+        }
+        #opacity-slider::-webkit-slider-runnable-track {
+            width: 20px;
+            height: 200px;
+            background: linear-gradient(to bottom, #d73027 0%, #f46d43 50%, #fee08b 100%);
+            border-radius: 3px;
+        }
+        #opacity-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            background: #333;
+            cursor: pointer;
+            border-radius: 50%;
+            border: 2px solid #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            margin-left: -2px;
+        }
+        #opacity-slider::-moz-range-track {
+            width: 20px;
+            height: 200px;
+            background: linear-gradient(to bottom, #d73027 0%, #f46d43 50%, #fee08b 100%);
+            border-radius: 3px;
+        }
+        #opacity-slider::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            background: #333;
+            cursor: pointer;
+            border-radius: 50%;
+            border: 2px solid #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        #opacity-slider::-ms-track {
+            width: 20px;
+            height: 200px;
+            background: transparent;
+            border-color: transparent;
+            color: transparent;
+        }
+        #opacity-slider::-ms-thumb {
+            width: 24px;
+            height: 24px;
+            background: #333;
+            cursor: pointer;
+            border-radius: 50%;
+            border: 2px solid #fff;
+        }
     </style>
     
     <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -111,22 +169,37 @@
     
     <!-- Legend -->
     <div id="map-legend" style="position: fixed; top: 50%; right: 270px;
-                transform: translateY(-50%); width: 100px; height: 280px;
+                transform: translateY(-50%); width: 130px; height: 280px;
                 background-color: white; z-index: 1000; font-size: 12px;
                 padding: 12px; border: 2px solid #333; border-radius: 3px;
                 box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4); font-family: Arial, sans-serif;">
         <h4 id="legend-title" style="margin-top: 0; margin-bottom: 10px; text-align: center;
                 font-size: 14px; font-weight: bold; color: #333;">Terrain Slope (DEM)</h4>
-        <div style="height: 220px; width: 35px; float: left; margin-right: 12px; position: relative;">
-            <div id="gradient-bar" style="height: 100%; width: 100%; border: 2px solid #000;
-                    background: linear-gradient(to top, #006837, #238443, #41ab5d, #78c679, 
-                    #addd8e, #d9f0a3, #f7fcb9, #fee08b, #fdae61, #f46d43, #d73027, #a50026);">
+        <div style="display: flex; align-items: center; height: 220px;">
+            <!-- Opacity Slider -->
+            <div style="display: flex; flex-direction: column; align-items: center; margin-right: 8px; height: 100%;">
+                <input type="range" id="opacity-slider" min="0" max="100" value="90" 
+                       orient="vertical" 
+                       oninput="updateOpacity(this.value)">
+                <div style="display: flex; flex-direction: column; justify-content: space-between;
+                            height: 200px; margin-top: 5px; font-size: 9px; color: #666; text-align: center;">
+                    <span>100%</span>
+                    <span>0%</span>
+                </div>
             </div>
-        </div>
-        <div style="display: flex; flex-direction: column; justify-content: space-between;
-                height: 220px; padding-left: 5px;">
-            <span style="font-size: 11px; font-weight: bold;">Low</span>
-            <span style="font-size: 11px; font-weight: bold;">High</span>
+            <!-- Gradient Bar -->
+            <div style="height: 220px; width: 35px; position: relative;">
+                <div id="gradient-bar" style="height: 100%; width: 100%; border: 2px solid #000;
+                        background: linear-gradient(to top, #006837, #238443, #41ab5d, #78c679, 
+                        #addd8e, #d9f0a3, #f7fcb9, #fee08b, #fdae61, #f46d43, #d73027, #a50026);">
+                </div>
+            </div>
+            <!-- Labels -->
+            <div style="display: flex; flex-direction: column; justify-content: space-between;
+                        height: 220px; padding-left: 5px;">
+                <span style="font-size: 11px; font-weight: bold;">Low</span>
+                <span style="font-size: 11px; font-weight: bold;">High</span>
+            </div>
         </div>
     </div>
     
@@ -304,9 +377,12 @@
             var terrainOverlay = imageOverlays['terrain_slope'];
             if (terrainOverlay) {
                 terrainConfig.visible = true;
-                terrainConfig.opacity = 0.9;
+                // Keep existing opacity or set to 0.9 if it was 0
+                if (terrainConfig.opacity === 0.0) {
+                    terrainConfig.opacity = 0.9;
+                }
                 terrainOverlay.addTo(map);
-                terrainOverlay.setOpacity(0.9);
+                terrainOverlay.setOpacity(terrainConfig.opacity);
                 activeLayer = 'terrain_slope';
                 updateLegend('terrain_slope');
                 var terrainButton = document.getElementById('btn-terrain-slope');
@@ -342,9 +418,12 @@
         
         // Turn on the selected layer
         layerConfig.visible = true;
-        layerConfig.opacity = 0.9;
+        // Keep existing opacity or set to 0.9 if it was 0
+        if (layerConfig.opacity === 0.0) {
+            layerConfig.opacity = 0.9;
+        }
         overlay.addTo(map);
-        overlay.setOpacity(0.9);
+        overlay.setOpacity(layerConfig.opacity);
         activeLayer = layerId;
         updateLegend(layerId);
         
@@ -363,11 +442,29 @@
         var legend = document.getElementById('map-legend');
         var title = document.getElementById('legend-title');
         var gradient = document.getElementById('gradient-bar');
+        var slider = document.getElementById('opacity-slider');
         
         if (legend && title && gradient) {
             legend.style.display = 'block';
             title.textContent = layerConfig.name;
             gradient.style.background = 'linear-gradient(to top, ' + layerConfig.palette.join(', ') + ')';
+        }
+        
+        // Update slider to match current opacity
+        if (slider && layerConfig) {
+            slider.value = Math.round(layerConfig.opacity * 100);
+        }
+    }
+    
+    // Update opacity of active layer
+    function updateOpacity(value) {
+        var opacity = parseFloat(value) / 100.0;
+        var overlay = imageOverlays[activeLayer];
+        var layerConfig = LAYERS[activeLayer];
+        
+        if (overlay && layerConfig) {
+            overlay.setOpacity(opacity);
+            layerConfig.opacity = opacity;
         }
     }
     
